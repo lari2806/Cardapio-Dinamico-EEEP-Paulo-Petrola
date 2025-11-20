@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findByEmail(String email) {  //cria automaticamente uma query que busca com base no email.
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new NoSuchElementException("Usuário não encontrado com email: " + email);
