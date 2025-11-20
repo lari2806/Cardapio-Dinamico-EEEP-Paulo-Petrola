@@ -1,0 +1,40 @@
+.MerendaManha {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100px;
+}
+
+.Almoco {
+    display: table-cell;
+    vertical-align: middle;
+    height: 300px;
+}
+
+.MerendaTarde {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100px;
+}
+
+table {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+    
+}
+
+table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+table tr {
+    transition: 0.2s;
+}
