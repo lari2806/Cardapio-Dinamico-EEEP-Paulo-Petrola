@@ -1,8 +1,11 @@
 package br.com.cardapio.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+
 import br.com.cardapio.model.User;
 import br.com.cardapio.repository.UserRepository;
 import br.com.cardapio.service.UserService;
@@ -12,32 +15,34 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public User findById(long id) {
-        return userRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return userRepository.findById(id)
+            .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public User findByEmail(String email) {  //cria automaticamente uma query que busca com base no email.
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new NoSuchElementException("Usuário não encontrado com email: " + email);
-        }
-        return user;
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+            .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com email: " + email));
     }
 
     @Override
     public User create(User user) {
-        if (userRepository.existsById(user.getId())) {
-            throw new IllegalArgumentException("Este usuário já existe.");
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Já existe um usuário com esse email!");
         }
-        
-            return userRepository.save(user);
-        
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(user);
     }
-    
 }
