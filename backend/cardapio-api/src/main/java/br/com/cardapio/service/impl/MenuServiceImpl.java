@@ -2,6 +2,7 @@ package br.com.cardapio.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import br.com.cardapio.model.Menu;
 import br.com.cardapio.repository.MenuRepository;
@@ -39,5 +40,11 @@ public class MenuServiceImpl implements MenuService {
 
             return menuRepository.save(menu);
     }
+
+    @Override
+    public List<Menu> filtrar(String mealType, String dayOfWeek, String food) {
+        return menuRepository.findByFoodContainingIgnoreCase(food == null ? "" : food);
+    }
+
     
 }
