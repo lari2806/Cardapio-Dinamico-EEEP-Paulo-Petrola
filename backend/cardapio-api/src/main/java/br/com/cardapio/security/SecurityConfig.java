@@ -17,32 +17,30 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+    
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.disable())
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
+                    .requestMatchers("/auth/login", "/auth/register").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+            
+                    // 🔥 IMPORTANTE: liberar OPTIONS (resolve o 403!)
+                    .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+            
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        
+        return http.build();
+    }
 
-    http
-        .csrf(csrf -> csrf.disable())
-        .headers(headers -> headers.frameOptions(frame -> frame.disable()))
-        .sessionManagement(session -> 
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        )
-        .authorizeHttpRequests(auth -> auth
-
-                .requestMatchers(
-                        "/swagger-ui/**",
-                        "/swagger-ui.html",
-                        "/v3/api-docs/**",
-                        "/v3/api-docs.yaml"
-                ).permitAll()
-
-                .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-
-                .anyRequest().authenticated()
-        )
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-    return http.build();
-}
 
 }
 
