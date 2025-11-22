@@ -1,6 +1,5 @@
 package br.com.cardapio.controller;
 
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import br.com.cardapio.dto.MenuDTO;
