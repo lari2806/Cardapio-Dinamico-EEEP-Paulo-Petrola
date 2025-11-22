@@ -30,6 +30,9 @@ public class SecurityConfig {
                     .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
                     .requestMatchers("/auth/login", "/auth/register").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/menu/**").permitAll()
+                    .requestMatchers("/menu/create").permitAll()
+
             
                     // 🔥 IMPORTANTE: liberar OPTIONS (resolve o 403!)
                     .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()

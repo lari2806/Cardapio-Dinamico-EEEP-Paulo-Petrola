@@ -1,16 +1,15 @@
 package br.com.cardapio.service;
 
-import java.util.List;
-
 import br.com.cardapio.model.Menu;
+import java.util.List;
 
 public interface MenuService {
 
     Menu findById(long id);
-    
+
     Menu create(Menu menu);
 
     Menu update(Menu menu);
 
-    List<Menu> filtrar(String mealType, String dayOfWeek, String food);
+    List<Menu> filtrar(String food);
 }

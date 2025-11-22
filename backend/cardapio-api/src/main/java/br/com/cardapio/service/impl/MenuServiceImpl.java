@@ -1,9 +1,7 @@
 package br.com.cardapio.service.impl;
 
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.NoSuchElementException;
 import br.com.cardapio.model.Menu;
 import br.com.cardapio.repository.MenuRepository;
 import br.com.cardapio.service.MenuService;
@@ -19,17 +17,14 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu findById(long id) {
-        return menuRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return menuRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu não encontrado"));
     }
 
     @Override
     public Menu create(Menu menu) {
-        if (menuRepository.existsById(menu.getId())) {
-            throw new IllegalArgumentException("Este usuário já existe.");
-        }
-        
-            return menuRepository.save(menu);
-        
+        // Não verifica ID, será gerado automaticamente
+        return menuRepository.save(menu);
     }
 
     @Override
@@ -37,14 +32,11 @@ public class MenuServiceImpl implements MenuService {
         if (!menuRepository.existsById(menu.getId())) {
             throw new IllegalArgumentException("Este menu não existe.");
         }
-
-            return menuRepository.save(menu);
+        return menuRepository.save(menu);
     }
 
     @Override
-    public List<Menu> filtrar(String mealType, String dayOfWeek, String food) {
+    public List<Menu> filtrar(String food) {
         return menuRepository.findByFoodContainingIgnoreCase(food == null ? "" : food);
     }
-
-    
 }
