@@ -1,29 +1,38 @@
 package br.com.cardapio.security;
 
-import br.com.cardapio.model.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "MEGA_SECRET_KEY_123";
-    private final long EXPIRATION = 86400000; // 1 dia
+    // Chave fixa — mínimo 32 bytes
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(
+            "CHAVE_SUPER_SECRETA_DE_32_BYTES_AQUI_1234567890".getBytes()
+    );
 
-    public String generateToken(User user) {
+    private final long EXPIRATION = 1000 * 60 * 60; // 1h
+
+    // Agora aceita User
+    public String generateToken(br.com.cardapio.model.User user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getEmail()) // email é seu identificador
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
+    // Seu filtro usa extractEmail(), então agora o método existe
     public String extractEmail(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET)
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -31,7 +40,7 @@ public class JwtUtil {
 
     public boolean isValidToken(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            extractEmail(token);
             return true;
         } catch (Exception e) {
             return false;
