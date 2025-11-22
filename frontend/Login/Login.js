@@ -17,22 +17,60 @@ document.querySelector('form.register-form').addEventListener('submit', function
         body: JSON.stringify({ email, password })
     })
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Credenciais inválidas");
+
+            // 🔴 LOGIN INCORRETO
+            if (response.status === 401) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Credenciais inválidas',
+                    text: 'Email ou senha incorretos.',
+                    confirmButtonColor: '#d33'
+                });
+                return null;
             }
+
+            // 🔴 ERROS DO SERVIDOR
+            if (!response.ok) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro no servidor',
+                    text: 'Algo inesperado ocorreu no servidor.',
+                    confirmButtonColor: '#d33'
+                });
+                return null;
+            }
+
             return response.json();
         })
         .then(data => {
+            if (!data) return;
 
+            // ✔ LOGIN BEM-SUCEDIDO
             if (data.token) {
                 localStorage.setItem("token", data.token);
-                window.location.href = "../CardapioGestao/CardapioGestao.html";
-            } else {
-                alert("Email ou senha inválidos");
+                localStorage.setItem("role", data.role); // caso queira guardar a role
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login realizado!',
+                    showConfirmButton: false,
+                    timer: 1200
+                });
+
+                setTimeout(() => {
+                    window.location.href = "../CardapioGestao/CardapioGestao.html";
+                }, 1200);
             }
         })
         .catch(error => {
+            // 🔴 SÓ PEGA ERROS REAIS: servidor offline, CORS, fetch quebrado
             console.error("Erro no login:", error);
-            alert("Erro ao conectar ao servidor");
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro no servidor',
+                text: 'Não foi possível conectar ao servidor.',
+                confirmButtonColor: '#d33'
+            });
         });
 });
