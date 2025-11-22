@@ -31,6 +31,9 @@ public class SecurityConfig {
                     .requestMatchers("/auth/login", "/auth/register").permitAll()
                     .requestMatchers("/menu/filter",    "/menu/create").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/menu/**").permitAll()
+                    .requestMatchers("/menu/create").permitAll()
+
             
                     // 🔥 IMPORTANTE: liberar OPTIONS (resolve o 403!)
                     .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()

@@ -29,7 +29,8 @@ public class JwtFilter extends OncePerRequestFilter {
                path.startsWith("/v3/api-docs") ||
                path.startsWith("/swagger-ui") ||
                path.startsWith("/swagger-resources") ||
-               path.startsWith("/h2-console");
+               path.startsWith("/h2-console") ||
+               path.startsWith("/menu");
     }
 
 
@@ -44,7 +45,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 String token = authHeader.substring(7);
 
-                if (jwtUtil.isValidToken(token)) {
+
+
+                try{
 
                     String email = jwtUtil.extractEmail(token);
                     var user = userRepository.findByEmail(email).orElse(null);
@@ -61,6 +64,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
+                }catch (Exception ignored) {
+                    // NÃO BLOQUEIA → usuário só segue sem login
                 }
             }
 
