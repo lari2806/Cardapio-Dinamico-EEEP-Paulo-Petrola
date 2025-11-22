@@ -29,6 +29,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
                     .requestMatchers("/auth/login", "/auth/register").permitAll()
+                    .requestMatchers("/menu/filter",    "/menu/create").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
             
                     // 🔥 IMPORTANTE: liberar OPTIONS (resolve o 403!)

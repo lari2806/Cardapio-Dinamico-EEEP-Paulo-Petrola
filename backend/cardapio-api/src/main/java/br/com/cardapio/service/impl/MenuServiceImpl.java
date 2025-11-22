@@ -24,13 +24,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu create(Menu menu) {
-        if (menuRepository.existsById(menu.getId())) {
-            throw new IllegalArgumentException("Este usuário já existe.");
-        }
         
-            return menuRepository.save(menu);
-        
+        return menuRepository.save(menu);
     }
+
 
     @Override
     public Menu update(Menu menu) {
