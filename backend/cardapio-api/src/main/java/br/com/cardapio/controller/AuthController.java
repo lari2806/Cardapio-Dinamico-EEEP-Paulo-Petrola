@@ -25,9 +25,14 @@ public class AuthController {
     // LOGIN usando LoginRequest DTO
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        String token = authService.login(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok(new TokenResponse(token));
+        try {
+            String token = authService.login(request.getEmail(), request.getPassword());
+            return ResponseEntity.ok(new TokenResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Credenciais inválidas");
+        }
     }
+
 
     // REGISTER usando RegisterRequest DTO
     @PostMapping("/register")
