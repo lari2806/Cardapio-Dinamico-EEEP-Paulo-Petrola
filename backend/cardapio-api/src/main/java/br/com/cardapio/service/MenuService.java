@@ -1,5 +1,7 @@
 package br.com.cardapio.service;
 
+import java.util.List;
+
 import br.com.cardapio.model.Menu;
 
 public interface MenuService {
@@ -9,4 +11,6 @@ public interface MenuService {
     Menu create(Menu menu);
 
     Menu update(Menu menu);
+
+    List<Menu> filtrar(String mealType, String dayOfWeek, String food);
 }
