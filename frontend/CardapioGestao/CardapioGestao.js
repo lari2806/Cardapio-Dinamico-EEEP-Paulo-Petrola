@@ -1,47 +1,63 @@
-// URL do backend
-const API_URL = "http://localhost:8080/menu";
-
-const dayIndex = {
-    "Segunda-feira": 0,
-    "Terça-feira": 1,
-    "Quarta-feira": 2,
-    "Quinta-feira": 3,
-    "Sexta-feira": 4
+document.addEventListener("DOMContentLoaded", function() {
+    const anoAtual = new Date().getFullYear();
+    document.title = `Cardápio Gestão ${anoAtual}`;
+});
+const dayMap = {
+    "Segunda-feira": 1,
+    "Terça-feira": 2,
+    "Quarta-feira": 3,
+    "Quinta-feira": 4,
+    "Sexta-feira": 5
 };
 
+const mealMap = {
+    "merenda da manhã": "manha",
+    "merenda manhã": "manha",
+    "merenda_manha": "manha",
 
-function getCellId(week, mealType, day) {
-    let prefix = `s${week}_`;
-    switch(mealType) {
-        case "Merenda da manhã":
-            prefix += "manha_";
-            break;
-        case "Almoço":
-            prefix += "almoco_";
-            break;
-        case "Merenda da tarde":
-            prefix += "tarde_";
-            break;
-        default:
-            return null;
-    }
-    return prefix + (day + 1); 
+    "almoço": "almoco",
+    "almoco": "almoco",
+
+    "merenda da tarde": "tarde",
+    "merenda_tarde": "tarde"
+};
+
+function preencherTabela(cardapio) {
+    cardapio.forEach(item => {
+
+        const week = item.week;    
+        const day = dayMap[item.dayOfWeek];
+        const meal = mealMap[item.mealType.toLowerCase()];
+
+        if (!week || !day || !meal) {
+            console.warn("Ignorado por dados faltando:", item);
+            return;
+        }
+
+        const tabela = (week === 1 || week === 3) ? "s1" : "s2";
+
+        const cellId = `${tabela}_${meal}_${day}`;
+        const cell = document.getElementById(cellId);
+
+        if (cell) {
+            cell.textContent = item.food;
+        }
+    });
 }
 
 
-fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-        data.forEach(item => {
-            let w = item.week; 
-            let d = dayIndex[item.dayOfWeek]; 
-            let cellId = getCellId(w, item.mealType, d);
-            if(cellId) {
-                let cell = document.getElementById(cellId);
-                if(cell) {
-                    cell.innerText = item.food;
-                }
-            }
-        });
-    })
-    .catch(err => console.error("Erro ao carregar o cardápio:", err));
+function carregarSemana(semana) {
+    fetch(`http://localhost:8080/menu/week/${semana}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log("Semana carregada:", semana, data);
+            preencherTabela(data);
+        })
+        .catch(err => console.error("Erro ao carregar semana " + semana, err));
+}
+
+carregarSemana(1);
+
+carregarSemana(2);
+
+
