@@ -44,4 +44,10 @@ public class MenuServiceImpl implements MenuService {
                 mealType, dayOfWeek, foodFilter
         );
     }
+
+    @Override
+    public List<Menu> findByWeek(Integer week) {
+        return menuRepository.findByWeek(week);
+    }
+
 }

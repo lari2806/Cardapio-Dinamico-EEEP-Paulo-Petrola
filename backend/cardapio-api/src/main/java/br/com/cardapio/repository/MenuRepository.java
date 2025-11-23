@@ -15,4 +15,7 @@ public interface MenuRepository extends CrudRepository<Menu, Long> {
             String dayOfWeek,
             String food
     );
+
+    List<Menu> findByWeek(Integer week);
+
 }

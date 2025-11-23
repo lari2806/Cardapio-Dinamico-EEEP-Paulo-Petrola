@@ -12,5 +12,7 @@ public interface MenuService {
 
     Menu update(Menu menu);
 
+    List<Menu> findByWeek(Integer week);
+
     List<Menu> filtrar(String mealType, String dayOfWeek, String food);
 }

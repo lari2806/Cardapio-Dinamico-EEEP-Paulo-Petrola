@@ -5,6 +5,7 @@ public class MenuDTO {
     private String dayOfWeek;
     private String food;
     private int calories; 
+    private Integer week; 
 
     public String getMealType() { return mealType; }
     public void setMealType(String mealType) { this.mealType = mealType; }
@@ -17,4 +18,7 @@ public class MenuDTO {
 
     public int getCalories() { return calories; }
     public void setCalories(int calories) { this.calories = calories; }
+
+    public Integer getWeek() { return week; }
+    public void setWeek(Integer week) { this.week = week; }
 }

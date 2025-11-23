@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,7 @@ public class MenuController {
         menu.setDayOfWeek(dto.getDayOfWeek());
         menu.setFood(dto.getFood());
         menu.setCalories(dto.getCalories());
+        menu.setWeek(dto.getWeek());
     
     
         Menu created = menuService.create(menu);
@@ -62,7 +64,24 @@ public class MenuController {
         response.setDayOfWeek(created.getDayOfWeek());
         response.setFood(created.getFood());
         response.setCalories(created.getCalories());
+        response.setWeek(created.getWeek());
     
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/week/{week}")
+public List<MenuDTO> getByWeek(@PathVariable Integer week) {
+    List<Menu> menus = menuService.findByWeek(week);
+
+    return menus.stream().map(menu -> {
+        MenuDTO dto = new MenuDTO();
+        dto.setMealType(menu.getMealType());
+        dto.setDayOfWeek(menu.getDayOfWeek());
+        dto.setFood(menu.getFood());
+        dto.setCalories(menu.getCalories());
+        dto.setWeek(menu.getWeek());
+        return dto;
+    }).toList();
+}
+
 }

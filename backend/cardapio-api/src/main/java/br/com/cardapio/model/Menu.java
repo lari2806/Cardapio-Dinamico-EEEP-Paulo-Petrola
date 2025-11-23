@@ -22,6 +22,9 @@ public class Menu{
     @Column(nullable = false)
     private String dayOfWeek;
 
+    @Column(nullable = false)
+    private Integer week;
+
     public Long getId() {
         return id;
     }
@@ -60,6 +63,14 @@ public class Menu{
 
     public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
     }
 
 
