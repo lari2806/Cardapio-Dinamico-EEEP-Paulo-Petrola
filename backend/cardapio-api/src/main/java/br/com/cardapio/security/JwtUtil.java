@@ -1,5 +1,6 @@
 package br.com.cardapio.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -11,37 +12,52 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Chave fixa — mínimo 32 bytes
+    // Chave fixa — mínimo 32 bytes!
     private final SecretKey secretKey = Keys.hmacShaKeyFor(
             "CHAVE_SUPER_SECRETA_DE_32_BYTES_AQUI_1234567890".getBytes()
     );
 
-    private final long EXPIRATION = 1000 * 60 * 60; // 1h
+    private final long EXPIRATION_MS = 1000 * 60 * 60; // 1 hora
 
-    // Agora aceita User
+    // ===========================
+    // TOKEN: CRIAÇÃO
+    // ===========================
     public String generateToken(br.com.cardapio.model.User user) {
         return Jwts.builder()
-                .setSubject(user.getEmail()) // email é seu identificador
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole()) // se existir
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Seu filtro usa extractEmail(), então agora o método existe
-    public String extractEmail(String token) {
+    // ===========================
+    // TOKEN: EXTRAÇÃO
+    // ===========================
+    private Claims getAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 
+    public String extractEmail(String token) {
+        return getAllClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return getAllClaims(token).get("role", String.class);
+    }
+
+    // ===========================
+    // TOKEN: VALIDAÇÃO
+    // ===========================
     public boolean isValidToken(String token) {
         try {
-            extractEmail(token);
-            return true;
+            Claims claims = getAllClaims(token);
+            return claims.getExpiration().after(new Date());
         } catch (Exception e) {
             return false;
         }

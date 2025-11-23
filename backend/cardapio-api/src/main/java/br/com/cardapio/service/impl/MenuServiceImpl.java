@@ -2,6 +2,8 @@ package br.com.cardapio.service.impl;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+
+import br.com.cardapio.dto.MenuDTO;
 import br.com.cardapio.model.Menu;
 import br.com.cardapio.repository.MenuRepository;
 import br.com.cardapio.service.MenuService;
@@ -48,6 +50,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> findByWeek(Integer week) {
         return menuRepository.findByWeek(week);
+    }
+
+    @Override
+    public Menu updateMenu(Long id, MenuDTO menuDTO) {
+
+        Menu existingMenu = menuRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu não encontrado"));
+
+        existingMenu.setMealType(menuDTO.getMealType());
+        existingMenu.setDayOfWeek(menuDTO.getDayOfWeek());
+        existingMenu.setFood(menuDTO.getFood());
+        existingMenu.setCalories(menuDTO.getCalories());
+
+        return menuRepository.save(existingMenu);
     }
 
 }

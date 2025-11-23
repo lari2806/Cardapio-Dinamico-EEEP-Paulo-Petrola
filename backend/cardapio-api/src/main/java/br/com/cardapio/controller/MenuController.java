@@ -6,21 +6,26 @@ import br.com.cardapio.dto.MenuDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cardapio.model.Menu;
 import br.com.cardapio.service.MenuService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/menu")
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
 public class MenuController {
 
     @Autowired
@@ -70,7 +75,7 @@ public class MenuController {
     }
 
     @GetMapping("/week/{week}")
-public List<MenuDTO> getByWeek(@PathVariable Integer week) {
+    public List<MenuDTO> getByWeek(@PathVariable Integer week) {
     List<Menu> menus = menuService.findByWeek(week);
 
     return menus.stream().map(menu -> {
@@ -82,6 +87,20 @@ public List<MenuDTO> getByWeek(@PathVariable Integer week) {
         dto.setWeek(menu.getWeek());
         return dto;
     }).toList();
-}
+    }
+    
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('GESTAO')")
+    public ResponseEntity<MenuDTO> updateMenu(@PathVariable Long id, @RequestBody MenuDTO dto) {
+        Menu updated = menuService.updateMenu(id, dto);
+
+        MenuDTO response = new MenuDTO();
+        response.setMealType(updated.getMealType());
+        response.setDayOfWeek(updated.getDayOfWeek());
+        response.setFood(updated.getFood());
+        response.setCalories(updated.getCalories());
+
+        return ResponseEntity.ok(response);
+    }
 
 }

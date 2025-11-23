@@ -3,6 +3,7 @@ package br.com.cardapio.service;
 import java.util.List;
 
 import br.com.cardapio.model.Menu;
+import br.com.cardapio.dto.MenuDTO;
 
 public interface MenuService {
 
@@ -15,4 +16,6 @@ public interface MenuService {
     List<Menu> findByWeek(Integer week);
 
     List<Menu> filtrar(String mealType, String dayOfWeek, String food);
+
+    Menu updateMenu(Long id, MenuDTO menu);
 }

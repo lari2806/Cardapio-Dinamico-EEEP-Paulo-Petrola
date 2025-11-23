@@ -41,7 +41,8 @@ public class AuthServiceImpl implements AuthService {
             );
         }
 
-        // Gera token JWT
+        // Gera token JWT usando o objeto inteiro User
         return jwtUtil.generateToken(user);
     }
+
 }

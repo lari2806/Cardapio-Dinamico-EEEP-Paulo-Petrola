@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.Normalizer;
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "*")
@@ -22,7 +24,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // LOGIN usando LoginRequest DTO
+    // ========== LOGIN ==========
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
@@ -33,17 +35,39 @@ public class AuthController {
         }
     }
 
-
-    // REGISTER usando RegisterRequest DTO
+    // ========== REGISTER ==========
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest dto) {
+        try {
+            User user = new User();
+            user.setEmail(dto.getEmail());
+            user.setPassword(dto.getPassword()); // será encriptada no service
 
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setRole(dto.getRole());
+            // NORMALIZA A ROLE (remove acentos, maiúsculo)
+            user.setRole(normalizeRole(dto.getRole()));
 
-        User created = userService.create(user);
-        return ResponseEntity.ok(created);
+            User created = userService.create(user);
+            return ResponseEntity.ok(created);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao criar usuário.");
+        }
+    }
+
+
+    // ========== NORMALIZA ROLE ==========
+    private String normalizeRole(String role) {
+        if (role == null) return null;
+
+        String noAccent = Normalizer
+                .normalize(role, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", ""); // remove acentos
+
+        noAccent = noAccent.trim().toUpperCase(); // caixa alta
+
+        return noAccent;
     }
 }
