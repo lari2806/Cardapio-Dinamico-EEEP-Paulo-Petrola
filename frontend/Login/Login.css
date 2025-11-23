@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 160px);
+    padding: 20px;
+}
+
+.form-card {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 32px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+.form-card h2 {
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+    color: #0F3D2E;
+}
+
+.form-card p {
+    font-size: 1rem;
+    margin-bottom: 28px;
+    color: #333;
+}
+
+button{
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button {
+    background-color: #5db12f;
+    color: white;
+}

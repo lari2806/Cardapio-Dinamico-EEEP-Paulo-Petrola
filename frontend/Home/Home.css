@@ -1,40 +1,106 @@
-body {
+* {
     margin: 0;
     padding: 0;
-
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
 }
 
-.home-page {
+body {
+    background-color: #f5f6f5;
+    color: #1a1a1a;
+}
+.topo {
+    background: linear-gradient(to right,#5db12f, #46ac33, #45b16e, #2db39e);
+    color: white;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.logo_pp {
+    width: 70px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.titulo-topo h1 {
+    margin: 0;
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.titulo-topo p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+
+.home-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
+    height: calc(100vh - 160px);
+    padding: 20px;
 }
 
-.form {
+.card {
     background: white;
-    padding: 30px;
-    width: 320px;
-    border-radius: 12px;
+    width: 100%;
+    max-width: 430px;
+    padding: 32px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.form button {
+.card h2 {
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+    color: #0F3D2E;
+}
+
+.card p {
+    font-size: 1rem;
+    margin-bottom: 28px;
+    color: #333;
+}
+
+.botoes button {
     width: 100%;
-    padding: 18px;
-    margin: 13px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
+    padding: 14px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.05rem;
+    font-weight: 600;
     cursor: pointer;
-    background: #fff;
     transition: 0.2s;
 }
 
-.form button:hover {
-    background: #f0f0f0;
+.botoes a {
+    text-decoration: none;
+}
+
+.botoes button {
+    background-color: #5db12f;
+    color: white;
+}
+
+.botoes button:hover {
+    background-color: #0b2f23;
+}
+
+.botoes a:nth-child(2) button {
+    background-color: #E6EDE9; 
+    color: #1a1a1a;
+    border: 1px solid #c9cfc9;
+}
+
+.botoes a:nth-child(2) button:hover {
+    background-color: #d8e4dd;
 }
 
