@@ -56,7 +56,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     if (user != null && role != null) {
 
-                        // 🔥 Cria a lista de authorities (ROLE_GESTAO)
                         List<SimpleGrantedAuthority> authorities =
                                 List.of(new SimpleGrantedAuthority(role));
 
