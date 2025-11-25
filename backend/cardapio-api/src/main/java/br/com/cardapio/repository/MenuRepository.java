@@ -10,10 +10,16 @@ import br.com.cardapio.model.Menu;
 @Repository
 public interface MenuRepository extends CrudRepository<Menu, Long> {
 
+    List<Menu> findByWeekAndDayOfWeekAndMealType(
+        Integer week,
+        String dayOfWeek,
+        String mealType
+    );
+
     List<Menu> findByMealTypeAndDayOfWeekAndFoodContainingIgnoreCase(
-            String mealType,
-            String dayOfWeek,
-            String food
+        String mealType,
+        String dayOfWeek,
+        String food
     );
 
     List<Menu> findByWeek(Integer week);

@@ -17,5 +17,5 @@ public interface MenuService {
 
     List<Menu> filtrar(String mealType, String dayOfWeek, String food);
 
-    Menu updateMenu(Long id, MenuDTO menu);
+    List<MenuDTO> updateAll(List<MenuDTO> menuList);
 }

@@ -1,7 +1,10 @@
 package br.com.cardapio.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import br.com.cardapio.dto.MenuDTO;
 import br.com.cardapio.model.Menu;
@@ -53,17 +56,76 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu updateMenu(Long id, MenuDTO menuDTO) {
+public List<MenuDTO> updateAll(List<MenuDTO> listaDto) {
 
-        Menu existingMenu = menuRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Menu não encontrado"));
+    Map<Integer, String> dias = Map.of(
+        1, "Segunda-feira",
+        2, "Terça-feira",
+        3, "Quarta-feira",
+        4, "Quinta-feira",
+        5, "Sexta-feira"
+    );
 
-        existingMenu.setMealType(menuDTO.getMealType());
-        existingMenu.setDayOfWeek(menuDTO.getDayOfWeek());
-        existingMenu.setFood(menuDTO.getFood());
-        existingMenu.setCalories(menuDTO.getCalories());
+    Map<String, String> refeicoes = Map.of(
+        "manha", "Merenda da manhã",
+        "almoco", "Almoço",
+        "tarde", "Merenda da tarde"
+    );
 
-        return menuRepository.save(existingMenu);
+    List<MenuDTO> result = new ArrayList<>();
+
+    for (MenuDTO dto : listaDto) {
+
+        Integer semana = dto.getWeek();
+        Integer diaNumero;
+        try {
+            diaNumero = Integer.parseInt(dto.getDayOfWeek());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Dia inválido enviado pelo front: " + dto.getDayOfWeek());
+        }
+
+        String dia = dias.get(diaNumero);
+        String refeicao = refeicoes.get(dto.getMealType().toLowerCase());
+
+        if (dia == null || refeicao == null) {
+            throw new RuntimeException(
+                "Valores inválidos recebidos do front: dia=" + dto.getDayOfWeek() +
+                ", refeição=" + dto.getMealType()
+            );
+        }
+
+        // Busca se já existe
+        List<Menu> lista = menuRepository.findByWeekAndDayOfWeekAndMealType(
+                semana,
+                dia,
+                refeicao
+        );
+
+        if (lista.isEmpty()) {
+            // Não existe → cria novo registro
+            Menu novoMenu = new Menu();
+            novoMenu.setWeek(semana);
+            novoMenu.setDayOfWeek(dia);
+            novoMenu.setMealType(refeicao);
+            novoMenu.setFood(dto.getFood());
+            novoMenu.setCalories(dto.getCalories());
+            menuRepository.save(novoMenu);
+        } else {
+            // Atualiza todos os registros encontrados
+            for (Menu menu : lista) {
+                menu.setFood(dto.getFood());
+                menu.setCalories(dto.getCalories());
+                menuRepository.save(menu);
+            }
+        }
+
+        result.add(dto);
     }
 
+    return result;
 }
+
+}
+
+
+

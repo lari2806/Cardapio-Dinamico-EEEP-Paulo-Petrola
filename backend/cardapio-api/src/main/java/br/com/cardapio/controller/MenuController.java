@@ -89,18 +89,14 @@ public class MenuController {
     }).toList();
     }
     
-    @PutMapping("/update/{id}")
-    @PreAuthorize("hasRole('GESTAO')")
-    public ResponseEntity<MenuDTO> updateMenu(@PathVariable Long id, @RequestBody MenuDTO dto) {
-        Menu updated = menuService.updateMenu(id, dto);
+@PutMapping("/update-all")
+@PreAuthorize("hasRole('GESTAO')")
+public ResponseEntity<List<MenuDTO>> updateAll(@RequestBody List<MenuDTO> lista) {
 
-        MenuDTO response = new MenuDTO();
-        response.setMealType(updated.getMealType());
-        response.setDayOfWeek(updated.getDayOfWeek());
-        response.setFood(updated.getFood());
-        response.setCalories(updated.getCalories());
+    List<MenuDTO> updatedList = menuService.updateAll(lista);
 
-        return ResponseEntity.ok(response);
-    }
+    return ResponseEntity.ok(updatedList);
+}
+
 
 }
