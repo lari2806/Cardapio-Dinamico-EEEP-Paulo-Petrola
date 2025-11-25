@@ -1,40 +1,158 @@
-.MerendaManha {
-    display: table-cell;
-    vertical-align: middle;
-    height: 100px;
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
 }
 
-.Almoco {
-    display: table-cell;
-    vertical-align: middle;
-    height: 300px;
+body {
+    background-color: #f5f6f5;
+    color: #1a1a1a;
+    padding-bottom: 40px;
 }
 
-.MerendaTarde {
-    display: table-cell;
-    vertical-align: middle;
-    height: 100px;
+/* ---------- HEADER MODERNO ---------- */
+
+header {
+    width: 100%;
+    background: #38880d;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+header .logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* LINKS DO HEADER */
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+/* BOTÃO DE INÍCIO DESTACADO */
+header nav a.inicio-btn {
+    padding: 10px 18px;
+    background: rgba(0, 0, 0, 0.30);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    transition: 0.25s ease;
+}
+
+/* ---------- TÍTULOS ---------- */
+
+h2 {
+    text-align: center;
+    margin: 32px 0 15px 0;
+    font-size: 1.8rem;
+    color: #38880d;
+}
+
+/* ---------- TABELAS ---------- */
 
 table {
-    width: 100%;
-    max-width: 900px;
-    margin: 20px auto;
+    width: 90%;
+    max-width: 1050px;
+    margin: 0 auto 40px auto;
     border-collapse: collapse;
     background: white;
-    border-radius: 10px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
-    
+
+    border: 1px solid #dce3da;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
-table td {
-    padding: 15px;
-    border: 1px solid #ddd;
+td {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
     text-align: center;
-    font-size: 16px;
+    font-size: 1.15rem;
+    color: #1a1a1a;
 }
 
-table tr {
-    transition: 0.2s;
+/* Primeira coluna */
+.MerendaManha,
+.Almoco,
+.MerendaTarde {
+    background-color: #38880d;
+    color: white;
+    font-weight: 600;
+    width: 230px;
+}
+
+.DiasSemana td {
+    background: #eaf3e2;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Células clicáveis */
+td[id] {
+    background: #ffffff;
+    transition: background 0.2s, transform 0.2s;
+}
+
+td[id]:hover {
+    background: #e9f9e0;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+/* ---------- RESPONSIVO ---------- */
+
+@media (max-width: 700px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    header nav a {
+        margin-left: 12px;
+    }
+
+    table {
+        width: 95%;
+    }
+
+    td {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    .MerendaManha,
+    .Almoco,
+    .MerendaTarde {
+        width: 150px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
 }
