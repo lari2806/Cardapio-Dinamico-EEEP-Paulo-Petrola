@@ -96,3 +96,66 @@ button:hover {
         font-size: 1rem;
     }
 }
+
+@media (max-width: 900px) {
+    .form-card {
+        max-width: 380px;
+        padding: 30px;
+    }
+
+    .form-card h2 {
+        font-size: 1.55rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-page {
+        height: auto;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .form-card {
+        max-width: 92%;
+        padding: 28px;
+    }
+
+    input {
+        padding: 11px;
+        font-size: 0.95rem;
+    }
+
+    button {
+        padding: 13px;
+        font-size: 0.95rem;
+    }
+
+    .form-card h2 {
+        font-size: 1.45rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .form-card {
+        padding: 22px;
+        border-radius: 10px;
+    }
+
+    .form-card h2 {
+        font-size: 1.35rem;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+
+    label {
+        font-size: 0.9rem;
+    }
+}

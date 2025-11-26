@@ -104,3 +104,75 @@ body {
     background-color: #d8e4dd;
 }
 
+@media (max-width: 900px) {
+    .topo {
+        padding: 18px;
+        gap: 14px;
+    }
+
+    .logo_pp {
+        width: 85px;
+        height: 85px;
+    }
+
+    .titulo-topo h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .topo {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding-bottom: 26px;
+    }
+
+    .logo_pp {
+        width: 80px;
+        height: 80px;
+    }
+
+    .titulo-topo h1 {
+        font-size: 1.35rem;
+    }
+
+    .titulo-topo p {
+        font-size: 0.85rem;
+    }
+
+    .home-container {
+        height: auto;
+        padding-top: 30px;
+        padding-bottom: 40px;
+    }
+
+    .card {
+        padding: 26px;
+        max-width: 90%;
+    }
+
+    .card h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .logo_pp {
+        width: 70px;
+        height: 70px;
+    }
+
+    .titulo-topo h1 {
+        font-size: 1.2rem;
+    }
+
+    .card h2 {
+        font-size: 1.35rem;
+    }
+
+    .botoes button {
+        font-size: 0.95rem;
+        padding: 12px;
+    }
+}
