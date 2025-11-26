@@ -11,6 +11,29 @@ body {
     padding-bottom: 40px;
 }
 
+.edit-input {
+    width: 100%;
+    padding: 10px 12px;
+
+    background: #f8fbf7;
+    border: 2px solid #cfe5c4;
+    border-radius: 8px;
+
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    font-family: "Roboto", sans-serif;
+
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.edit-input:focus {
+    background: #ffffff;
+    border-color: #38880d;
+    box-shadow: 0 0 6px rgba(56, 136, 13, 0.35);
+    transform: scale(1.02);
+}
+
 header {
     width: 100%;
     background: #38880d;
